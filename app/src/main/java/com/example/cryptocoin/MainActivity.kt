@@ -5,20 +5,22 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.cryptocoin.databinding.ActivityMainBinding
 import com.example.cryptocoin.pojo.CoinPriceInfo
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: CoinViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val adapter = Adapters()
-        rvTCCryptoInfo.adapter = adapter
+        binding.rvTCCryptoInfo.adapter = adapter
  
         viewModel = ViewModelProviders.of(this)[CoinViewModel::class.java]
 

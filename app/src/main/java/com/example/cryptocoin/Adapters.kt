@@ -4,10 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptocoin.pojo.CoinPriceInfo
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_icon_info.view.*
 
 class Adapters : RecyclerView.Adapter<Adapters.CoinViewHolder>() {
 
@@ -48,10 +49,10 @@ class Adapters : RecyclerView.Adapter<Adapters.CoinViewHolder>() {
     }
 
     inner class CoinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvNameCrypto = itemView.tvNameCrypto
-        val iCryptoImage = itemView.iCryptoImage
-        val tvPriceCrypto = itemView.tvPriceCrypto
-        val tvTimeUpdate = itemView.tvTimeUpdate
+        val tvNameCrypto = itemView.findViewById<TextView>(R.id.tvNameCrypto)
+        val iCryptoImage = itemView.findViewById<ImageView>(R.id.iCryptoImage)
+        val tvPriceCrypto = itemView.findViewById<TextView>(R.id.tvPriceCrypto)
+        val tvTimeUpdate = itemView.findViewById<TextView>(R.id.tvTimeUpdate)
     }
 
 

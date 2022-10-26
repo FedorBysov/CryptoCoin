@@ -7,18 +7,20 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.cryptocoin.databinding.ActivityCoinDetailSinfoBinding
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_coin_detail_sinfo.*
 
 
 
 class CoinDetailSInfo : AppCompatActivity() {
 
+    private lateinit var binding: ActivityCoinDetailSinfoBinding
     private lateinit var viewModel: CoinViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_detail_sinfo)
+        binding = ActivityCoinDetailSinfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = ViewModelProviders.of(this)[CoinViewModel::class.java]
 
@@ -30,7 +32,7 @@ class CoinDetailSInfo : AppCompatActivity() {
         if (fromSymbol != null) {
             viewModel.getDetailsCoinInfo(fromSymbol).observe(this, Observer {
                 Log.d("TEST_LOADING_CRYPTO_INFO", it.toString())
-                toSlash.text = it.tosymbol
+                binding.toSlash.text = it.tosymbol
 //                tvPriceNow.text = it.price.toString()
 //                toSlash.text = it.tosymbol
 //                fromSlash.text = it.fromsymbol
@@ -38,7 +40,7 @@ class CoinDetailSInfo : AppCompatActivity() {
 //                tvMaxPriceNow.text = it.highday.toString()
 //                tvLastDealNow.text = it.lasttradeid
 //                tvTimeUpdate.text = "Последняя сделка : " + it.getFormattedDay()
-                Picasso.get().load(it.getFullImageUrl()).into(iCryptoImage)
+                Picasso.get().load(it.getFullImageUrl()).into(binding.iCryptoImage)
             })
         }
 
