@@ -9,7 +9,6 @@ import com.example.cryptocoin.dataBase.AppDatabase
 import com.example.cryptocoin.pojo.CoinPriceInfo
 import com.example.cryptocoin.pojo.CoinPriceInfoRawData
 import com.google.gson.Gson
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit

@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.priceList.observe(this, Observer {
             adapter.coinInfoList = it
         })
+
         adapter.onCoinClickListener = object :Adapters.OnCoinClickListener{
             override fun OnCoinClick(coinPriceInfo: CoinPriceInfo) {
                 val intent = CoinDetailSInfo.newIntent(this@MainActivity, coinPriceInfo.fromsymbol)
@@ -35,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 //        viewModel.getDetailsCoinInfo("BTC").observe(this, Observer {
 //            Log.d("TEST_OF_LOADING_DATA", "Succes in activity $it")
 //        })
-
     }
+
 
 
 
