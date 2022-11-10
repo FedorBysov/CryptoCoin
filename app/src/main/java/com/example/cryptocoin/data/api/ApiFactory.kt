@@ -1,6 +1,5 @@
-package com.example.cryptocoin.api
+package com.example.cryptocoin.data.api
 
-import android.util.JsonReader
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

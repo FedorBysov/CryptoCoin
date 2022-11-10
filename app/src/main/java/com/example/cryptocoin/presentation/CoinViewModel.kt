@@ -1,13 +1,13 @@
-package com.example.cryptocoin
+package com.example.cryptocoin.presentation
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.cryptocoin.api.ApiFactory
-import com.example.cryptocoin.dataBase.AppDatabase
-import com.example.cryptocoin.pojo.CoinPriceInfo
-import com.example.cryptocoin.pojo.CoinPriceInfoRawData
+import com.example.cryptocoin.data.api.ApiFactory
+import com.example.cryptocoin.data.dataBase.AppDatabase
+import com.example.cryptocoin.data.dataBase.CoinInfoDbModel
+import com.example.cryptocoin.data.api.model.CoinPriceInfoJsonContainerDto
 import com.google.gson.Gson
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -25,7 +25,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
         loadData()
     }
 
-    fun getDetailsCoinInfo(fsym: String): LiveData<CoinPriceInfo> {
+    fun getDetailsCoinInfo(fsym: String): LiveData<CoinInfoDbModel> {
         return db.coinPriceInfoDao().getPriceInfoAboutCoin(fsym)
     }
 
@@ -33,7 +33,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     //загружаем данные из сети
      private fun loadData() {
         val disposable = ApiFactory.apiService.getTopCoinInfo(limit = 10)
-            .map { it.data?.map { it.coinInfo?.name }?.joinToString(",")  }
+            .map { it.data?.map { it.coinName?.name }?.joinToString(",")  }
             .flatMap { it?.let { it1 -> ApiFactory.apiService.getFullPriceList(fsyms = it1) } }
             .map { getPriceListFromRawData(it) }
             .delaySubscription(10, TimeUnit.SECONDS)
@@ -52,23 +52,23 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     }
 
 
-    private fun getPriceListFromRawData(coinPriceInfoRawData: CoinPriceInfoRawData): List<CoinPriceInfo>? {
-        val result = ArrayList<CoinPriceInfo>()
-        val jsonObject = coinPriceInfoRawData.CoinPriceInfoJsonObject ?: return null
-        val coinKeySet = jsonObject.keySet()
-        for (coinKey in coinKeySet) {
-            val currencyJson = jsonObject.getAsJsonObject(coinKey)
-            val currencyKeySet = currencyJson.keySet()
-            for (coinKeyAbout in currencyKeySet) {
-                val priceInfo = Gson().fromJson(
-                    currencyJson.getAsJsonObject(coinKeyAbout),
-                    CoinPriceInfo::class.java
-                )
-                result.add(priceInfo)
-            }
-        }
-        return result
-    }
+//    private fun getPriceListFromRawData(coinPriceInfoJsonContainerDto: CoinPriceInfoJsonContainerDto): List<CoinInfoDbModel>? {
+//        val result = ArrayList<CoinInfoDbModel>()
+//        val jsonObject = coinPriceInfoJsonContainerDto.CoinPriceInfoJsonObject ?: return null
+//        val coinKeySet = jsonObject.keySet()
+//        for (coinKey in coinKeySet) {
+//            val currencyJson = jsonObject.getAsJsonObject(coinKey)
+//            val currencyKeySet = currencyJson.keySet()
+//            for (coinKeyAbout in currencyKeySet) {
+//                val priceInfo = Gson().fromJson(
+//                    currencyJson.getAsJsonObject(coinKeyAbout),
+//                    CoinInfoDbModel::class.java
+//                )
+//                result.add(priceInfo)
+//            }
+//        }
+//        return result
+//    }
 
     override fun onCleared() {
         super.onCleared()

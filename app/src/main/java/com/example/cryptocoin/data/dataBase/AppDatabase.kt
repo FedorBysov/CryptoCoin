@@ -1,13 +1,11 @@
-package com.example.cryptocoin.dataBase
+package com.example.cryptocoin.data.dataBase
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.cryptocoin.api.CoinPriceInfoDao
-import com.example.cryptocoin.pojo.CoinPriceInfo
 
-@Database(entities = [CoinPriceInfo::class], version = 1, exportSchema = false )
+@Database(entities = [CoinInfoDbModel::class], version = 1, exportSchema = false )
 abstract class AppDatabase : RoomDatabase() {
     companion object {
         private var db: AppDatabase? = null
@@ -25,5 +23,5 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun coinPriceInfoDao(): CoinPriceInfoDao
+    abstract fun coinPriceInfoDao(): CoinInfoDao
 }
