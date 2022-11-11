@@ -3,14 +3,10 @@ package com.example.cryptocoin.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.example.cryptocoin.R
 import com.example.cryptocoin.databinding.ActivityCoinDetailSinfoBinding
-import com.example.cryptocoin.databinding.ActivityMainBinding
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_coin_detail_sinfo.*
 
@@ -31,26 +27,25 @@ class CoinDetailSInfo : AppCompatActivity() {
             finish()
             return
         }
-        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL)
-        if (fromSymbol != null) {
-            viewModel.getDetailsCoinInfo(fromSymbol).observe(this, Observer {
-                Log.d("TEST_LOADING_CRYPTO_INFO", it.toString())
-                binding.tvFromSymbol.text = it.tosymbol
-                binding.tvFromSymbol.text = it.fromsymbol
-                binding.tvPrice.text = it.price.toString()
-                binding.tvMinPrice.text = it.lowday.toString()
-                binding.tvMaxPrice.text = it.highday.toString()
-                binding.tvLastMarket.text = it.lasttradeid
-                binding.tvLastUpdate.text = "Последняя сделка : " + it.getFormattedDay()
-                Picasso.get().load(it.getFullImageUrl()).into(ivLogoCoin)
-            })
-        }
+        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
+        viewModel.getDetailsCoinInfo(fromSymbol).observe(this, Observer {
+            binding.tvFromSymbol.text = it.tosymbol
+            binding.tvFromSymbol.text = it.fromsymbol
+            binding.tvPrice.text = it.price.toString()
+            binding.tvMinPrice.text = it.lowday.toString()
+            binding.tvMaxPrice.text = it.highday.toString()
+            binding.tvLastMarket.text = it.lastmarket
+            binding.tvLastUpdate.text = it.lastupdate
+            Picasso.get().load( it.imageurl).into(ivLogoCoin)
+        })
 
 
     }
 
     companion object {
         const val EXTRA_FROM_SYMBOL = "fsym"
+
+        private const val EMPTY_SYMBOL =""
 
         fun newIntent(context: Context, fromSymbol: String): Intent {
             val intent = Intent(context, CoinDetailSInfo::class.java)

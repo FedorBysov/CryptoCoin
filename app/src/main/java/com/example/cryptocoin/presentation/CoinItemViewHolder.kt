@@ -2,11 +2,7 @@ package com.example.cryptocoin.presentation
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptocoin.databinding.ItemIconInfoBinding
 import kotlinx.android.synthetic.main.item_icon_info.view.*
 
-class CoinItemViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvNameCrypto = itemView.tvNameCrypto
-        val iCryptoImage = itemView.iCryptoImage
-        val tvPriceCrypto = itemView.tvPriceCrypto
-        val tvTimeUpdate = itemView.tvTimeUpdate
-    }
+class CoinItemViewHolder (val binding: ItemIconInfoBinding) : RecyclerView.ViewHolder(binding.root)

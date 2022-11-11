@@ -1,8 +1,7 @@
 package com.example.cryptocoin.data.api
 
-import com.example.cryptocoin.data.api.model.CoinPriceInfoJsonContainerDto
 import com.example.cryptocoin.data.api.model.CoinNameListDto
-import io.reactivex.rxjava3.core.Single
+import com.example.cryptocoin.data.api.model.CoinPriceInfoJsonContainerDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -13,7 +12,6 @@ interface ApiService {
         @Query(QUERY_PARAM_API_KEY) api_key: String = "",
         @Query(QUERY_PARAM_LIMIT) limit: Int = 10,
         @Query(QUERY_PARAM_SYMBOL) tsyms: String = Currency
-
     ): CoinNameListDto
 
     @GET("pricemultifull")

@@ -3,54 +3,44 @@ package com.example.cryptocoin.presentation
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.example.cryptocoin.R
 import com.example.cryptocoin.data.dataBase.CoinInfoDbModel
+import com.example.cryptocoin.databinding.ItemIconInfoBinding
+import com.example.cryptocoin.domain.CoinInfo
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_icon_info.view.*
 
-class Adapters : ListAdapter<CoinInfoDbModel, CoinItemViewHolder>(CoinDeffCallBack()) {
+class Adapters : ListAdapter<CoinInfo, CoinItemViewHolder>(CoinDeffCallBack()) {
 
-//    //хранит coinInfo
-//    var coinInfoList:List<CoinPriceInfo> = listOf ()
-//        set(value) {
-//            field = value
-//            notifyDataSetChanged()
-//        }
-//
-//    var onCoinClickListener: OnCoinClickListener? =null
+    var onCoinClickListener: OnCoinClickListener? = null
 
     //создаем
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinItemViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_icon_info, parent, false)
-        return CoinItemViewHolder(view)
+        val binding =
+            ItemIconInfoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CoinItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CoinItemViewHolder, position: Int) {
-        val coin = [position]
-        with(holder) {
-            tvNameCrypto.text = bind.fromsymbol + "/" + coin.tosymbol
-            tvPriceCrypto.text = coin.price.toString()
-            tvTimeUpdate.text = "Время последнего обновления " + coin.getFormattedDay()
-            Picasso.get().load(coin.getFullImageUrl()).into(iCryptoImage)
+        val coin = getItem(position)
+        with(holder.binding) {
+            with(coin) {
 
+                tvNameCrypto.text = fromsymbol + "/" + tosymbol
+                tvPriceCrypto.text = price.toString()
+                tvTimeUpdate.text = String.format("Время последнего обновления %s", lastupdate)
+                Picasso.get().load(coin.imageurl).into(iCryptoImage)
 
-            itemView.setOnClickListener {
-                onCoinClickListener?.OnCoinClick(coin)
+                root.setOnClickListener {
+                    onCoinClickListener?.OnCoinClick(this)
+                }
             }
         }
     }
 
     //колличесвто эл-ов
-    override fun getItemCount(): Int {
-        return coinInfoList.size
-    }
 
 
-
-
-    interface OnCoinClickListener{
-        fun OnCoinClick(coinPriceInfo: CoinInfoDbModel)
+    interface OnCoinClickListener {
+        fun OnCoinClick(coinPriceInfo: CoinInfo)
     }
 }
 

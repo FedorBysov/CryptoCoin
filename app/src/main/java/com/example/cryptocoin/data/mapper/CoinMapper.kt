@@ -6,6 +6,10 @@ import com.example.cryptocoin.data.api.model.CoinPriceInfoJsonContainerDto
 import com.example.cryptocoin.data.dataBase.CoinInfoDbModel
 import com.example.cryptocoin.domain.CoinInfo
 import com.google.gson.Gson
+import java.sql.Date
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CoinMapper {
 
@@ -18,7 +22,7 @@ class CoinMapper {
             highday = dto.highday,
             lowday = dto.lowday,
             lastmarket = dto.lastmarket,
-            imageurl = dto.imageurl
+            imageurl = BASE_URL_IMAGE + dto.imageurl
         )
     }
 
@@ -32,7 +36,7 @@ class CoinMapper {
             for (coinKeyAbout in currencyKeySet) {
                 val priceInfo = Gson().fromJson(
                     currencyJson.getAsJsonObject(coinKeyAbout),
-                     CoinPriceInfoDto::class.java
+                    CoinPriceInfoDto::class.java
                 )
                 result.add(priceInfo)
             }
@@ -44,15 +48,32 @@ class CoinMapper {
         return namesListDto.names?.map { it.coinName?.name }?.joinToString(",") ?: ""
     }
 
-    fun mapDbModelToEntity(dbModel:CoinInfoDbModel):CoinInfo{
-        return CoinInfo(fromsymbol = dbModel.fromsymbol,
+    fun mapDbModelToEntity(dbModel: CoinInfoDbModel): CoinInfo {
+        return CoinInfo(
+            fromsymbol = dbModel.fromsymbol,
             tosymbol = dbModel.tosymbol,
             price = dbModel.price,
-            lastupdate = dbModel.lastupdate,
+            lastupdate = convertTimeTempToSet(dbModel.lastupdate),
             highday = dbModel.highday,
             lowday = dbModel.lowday,
             lastmarket = dbModel.lastmarket,
-            imageurl = dbModel.imageurl)
+            imageurl = dbModel.imageurl
+        )
     }
 
+    private fun convertTimeTempToSet(timeStemp: Long?): String {
+        if (timeStemp == null) return ""
+        val stemp = Timestamp(timeStemp * 1000)
+        val day = Date(stemp.time)
+        val pattern = "HH:mm:ss"
+        // Время по гринвичу
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(day)
+    }
+
+    companion object {
+        const val BASE_URL_IMAGE = "https://www.cryptocompare.com"
+
+    }
 }
