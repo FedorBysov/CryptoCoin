@@ -2,8 +2,6 @@ package com.example.cryptocoin.data.api.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.cryptocoin.data.api.ApiFactory.BASE_URL_IMAGE
-import com.example.cryptocoin.utils.convertTimeTempToSet
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -153,11 +151,4 @@ data class CoinPriceInfoDto(
     @Expose
     val imageurl: String?
 
-) {
-    fun getFormattedDay():String{
-        return convertTimeTempToSet(lastupdate)
-    }
-    fun getFullImageUrl():String{
-        return BASE_URL_IMAGE + imageurl
-    }
-}
+)

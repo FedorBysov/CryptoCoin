@@ -30,7 +30,7 @@ class CoinDetailSInfo : AppCompatActivity() {
         val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
         viewModel.getDetailsCoinInfo(fromSymbol).observe(this, Observer {
             binding.tvFromSymbol.text = it.tosymbol
-            binding.tvFromSymbol.text = it.fromsymbol
+            binding.tvToSymbol.text = it.fromsymbol
             binding.tvPrice.text = it.price.toString()
             binding.tvMinPrice.text = it.lowday.toString()
             binding.tvMaxPrice.text = it.highday.toString()
