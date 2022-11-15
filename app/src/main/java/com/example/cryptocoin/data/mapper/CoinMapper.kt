@@ -65,7 +65,7 @@ class CoinMapper {
         if (timeStemp == null) return ""
         val stemp = Timestamp(timeStemp * 1000)
         val day = Date(stemp.time)
-        val pattern = "HH:mm:ss"
+        val pattern = "HH:mm"
         // Время по гринвичу
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
         sdf.timeZone = TimeZone.getDefault()

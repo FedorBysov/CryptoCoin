@@ -20,6 +20,8 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     private val getCoinInfoListUseCase = GetCoinInfoListUseCase(repository)
     private val  loadDataUseCase = LoadDataUseCase(repository)
 
+
+
     val coinInfoList = getCoinInfoListUseCase()
 
 

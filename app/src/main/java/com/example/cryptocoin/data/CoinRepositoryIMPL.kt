@@ -38,6 +38,7 @@ class CoinRepositoryIMPL(application: Application) : CoinRepository {
             try {
                 val topCoins = apiService.getTopCoinInfo(limit = 15)
                 val fromSymbols = mapper.mapNamesListToString(topCoins)
+
                 val jsonContainer = apiService.getFullPriceList(fsyms = fromSymbols)
                 val coinInfoDtoList = mapper.mapJsonContainerToListCoinInfo(jsonContainer)
 
