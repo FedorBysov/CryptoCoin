@@ -44,7 +44,7 @@ class CoinDetailSInfoFragment : Fragment() {
             binding.tvMaxPrice.text = it.highday.toString()
             binding.tvLastMarket.text = it.lastmarket
             binding.tvLastUpdate.text = it.lastupdate
-            Picasso.get().load(it.imageurl).into(ivLogoCoin)
+            Picasso.get().load(it.imageurl).into(binding.ivLogoCoin)
         })
 
     }
