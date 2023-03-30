@@ -4,19 +4,22 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.cryptocoin.data.api.ApiFactory
-import com.example.cryptocoin.data.api.ApiService
-import com.example.cryptocoin.data.dataBase.AppDatabase
 import com.example.cryptocoin.data.dataBase.CoinInfoDao
 import com.example.cryptocoin.data.mapper.CoinMapper
 import com.example.cryptocoin.domain.CoinInfo
 import com.example.cryptocoin.domain.CoinRepository
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
-class CoinRepositoryIMPL(application: Application) : CoinRepository {
+class CoinRepositoryIMPL @Inject constructor(
+    private val mapper: CoinMapper,
+    private val coinInfoDao: CoinInfoDao,
+    private val application: Application
+) : CoinRepository {
 
-    private val coinInfoDao = AppDatabase.getInstance(application).coinPriceInfoDao()
+//    private val coinInfoDao = AppDatabase.getInstance(application).coinPriceInfoDao()
 
-    private val mapper = CoinMapper()
+
     private val apiService = ApiFactory.apiService
 
     override fun getCoinInfoList(): LiveData<List<CoinInfo>> {

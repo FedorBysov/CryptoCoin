@@ -1,5 +1,6 @@
 package com.example.cryptocoin.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +11,28 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.cryptocoin.databinding.FragmentCoinDetailSinfoBinding
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_coin_detail_sinfo.*
+import javax.inject.Inject
 
 
 class CoinDetailSInfoFragment : Fragment() {
 
     private lateinit var viewModel: CoinViewModel
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private var _binding: FragmentCoinDetailSinfoBinding? = null
     private val binding
         get() = _binding ?: throw RuntimeException("ActivityCoinDetailSinfoBinding is null")
 
+    private val component by lazy {
+        (requireActivity().application as CoinApp).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +46,7 @@ class CoinDetailSInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
 
         val fromSymbol =getSymbol()
 
